@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+
+git add .
+npx eslint --fix --ext js,jsx
+git add .
+yarn prettify-staged
