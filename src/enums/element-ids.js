@@ -4,4 +4,6 @@ export const ElementIds = {
     ShapeToyCanvas: "toy-canvas",
     RadiusInput: "radius-input",
     WidthInput: "width-input",
+    XCoordinateInput: "x-coordinate-input",
+    YCoordinateInput: "y-coordinate-input"
 }

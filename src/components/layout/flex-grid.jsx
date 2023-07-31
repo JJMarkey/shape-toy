@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { Grid } from '@mui/material'
 import styled from '@emotion/styled'
 
@@ -26,3 +27,12 @@ function GridItem({ columnWidth, children }) {
 FlexGrid.Item = GridItem
 
 export default FlexGrid
+
+FlexGrid.propTypes = {
+    spacing: PropTypes.number,
+    columns: PropTypes.numbers,
+    flexDirection: PropTypes.oneOf(['row', 'row-reverse', 'column']),
+    children: PropTypes.node,
+}
+
+GridItem.propTypes = { columnWidth: PropTypes.number, children: PropTypes.node }

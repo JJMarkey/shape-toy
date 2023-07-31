@@ -1,47 +1,66 @@
-import { useRef, useState } from 'react'
+import { useReducer, useRef, useState } from 'react'
 import { IconButton } from '@mui/material'
 import CircleRoundedIcon from '@mui/icons-material/CircleRounded'
 import SquareRoundedIcon from '@mui/icons-material/SquareRounded'
-import {
-    Canvas,
-    CircularSidebar,
-    FlexGrid,
-    Footer,
-    RectangularSidebar,
-} from '@components'
+import { Canvas, FlexGrid, Footer, Sidebar } from '@components'
 import { ElementIds, DrawableTypes } from '@enums'
 import { useComponentFirstMount } from '@hooks'
+import { restoreFromStorage } from '@utils'
+import { ShapeReducerActions } from './enums'
+
+function reducer(state, { action, payload }) {
+    switch (action) {
+        case ShapeReducerActions.Color:
+        case ShapeReducerActions.Height:
+        case ShapeReducerActions.Radius:
+        case ShapeReducerActions.Width:
+        case ShapeReducerActions.XCoord:
+        case ShapeReducerActions.YCoord: {
+            return { ...state, [action]: payload }
+        }
+        default:
+            return state
+    }
+}
 
 function App() {
     const canvasContext = useRef()
+    const canvas = useRef()
     const [selectedDrawType, setSelectedDrawType] = useState()
 
+    const [shapeValues, dispatch] = useReducer(reducer, {
+        [ShapeReducerActions.Color]: '#000000',
+        [ShapeReducerActions.Height]: 0,
+        [ShapeReducerActions.Width]: 0,
+        [ShapeReducerActions.Radius]: 0,
+        [ShapeReducerActions.XCoord]: 0,
+        [ShapeReducerActions.YCoord]: 0,
+    })
+
     useComponentFirstMount(() => {
-        const canvas = document.getElementById(ElementIds.ShapeToyCanvas)
-        canvasContext.current = canvas.getContext('2d')
+        canvas.current = document.getElementById(ElementIds.ShapeToyCanvas)
+        canvasContext.current = canvas.current.getContext('2d')
+
+        restoreFromStorage(canvasContext.current)
 
         return () => {
             canvasContext.current = undefined
         }
     })
 
-    function renderSidebar() {
-        switch (selectedDrawType) {
-            case DrawableTypes.Circle:
-                return <CircularSidebar />
-            case DrawableTypes.Rectangle:
-                return <RectangularSidebar />
-            default:
-                return <p>Select a drawtype!</p>
-        }
-    }
-
     return (
         <FlexGrid spacing={2} columns={3}>
             <FlexGrid.Item columnWidth={2}>
                 <Canvas />
             </FlexGrid.Item>
-            <FlexGrid.Item columnWidth={1}>{renderSidebar()}</FlexGrid.Item>
+            <FlexGrid.Item columnWidth={1}>
+                <Sidebar
+                    canvasContext={canvasContext.current}
+                    dispatch={dispatch}
+                    selectedDrawType={selectedDrawType}
+                    shapeValues={shapeValues}
+                />
+            </FlexGrid.Item>
             <FlexGrid.Item columnWidth={2}>
                 <Footer>
                     <IconButton

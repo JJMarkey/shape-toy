@@ -1,3 +1,4 @@
+import { PropTypes } from 'prop-types'
 import styled from '@emotion/styled'
 
 const FooterDiv = styled.div`
@@ -8,4 +9,8 @@ const FooterDiv = styled.div`
 
 export default function Footer({ children }) {
     return <FooterDiv>{children}</FooterDiv>
+}
+
+Footer.propTypes = {
+    children: PropTypes.node,
 }

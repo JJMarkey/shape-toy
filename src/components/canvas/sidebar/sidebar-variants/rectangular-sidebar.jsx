@@ -1,14 +1,8 @@
+import { PropTypes } from 'prop-types'
 import { ElementIds } from '@enums'
 import BaseSidebar from './base-sidebar'
 
-export default function RectangularSidebar({
-    color,
-    setColor,
-    width,
-    setWidth,
-    height,
-    setHeight,
-}) {
+export default function RectangularSidebar(props) {
     return (
         <>
             <div>
@@ -16,8 +10,8 @@ export default function RectangularSidebar({
                 <input
                     type="number"
                     id={ElementIds.WidthInput}
-                    value={width}
-                    onChange={(event) => setWidth(event.target.value)}
+                    value={props.width}
+                    onChange={(event) => props.setWidth(event.target.value)}
                 />
             </div>
 
@@ -26,12 +20,19 @@ export default function RectangularSidebar({
                 <input
                     type="number"
                     id={ElementIds.WidthInput}
-                    value={height}
-                    onChange={(event) => setHeight(event.target.value)}
+                    value={props.height}
+                    onChange={(event) => props.setHeight(event.target.value)}
                 />
             </div>
 
-            <BaseSidebar color={color} setColor={setColor} />
+            <BaseSidebar {...props} />
         </>
     )
+}
+
+RectangularSidebar.propTypes = {
+    width: PropTypes.number,
+    setWidth: PropTypes.func,
+    height: PropTypes.number,
+    setHeight: PropTypes.func,
 }

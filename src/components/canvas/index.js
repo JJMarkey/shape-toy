@@ -1,9 +1,7 @@
 import Canvas from "./canvas";
-import CircularSidebar from './sidebar/circular-sidebar';
-import RectangularSidebar from './sidebar/rectangular-sidebar';
+import Sidebar from "./sidebar/sidebar";
 
 export {
     Canvas,
-    CircularSidebar,
-    RectangularSidebar
+    Sidebar
 }

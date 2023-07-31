@@ -3,4 +3,6 @@
 
 
 git add .
+npx eslint --fix --ext js,jsx
+git add .
 yarn prettify-staged
