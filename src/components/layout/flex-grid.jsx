@@ -30,7 +30,7 @@ export default FlexGrid
 
 FlexGrid.propTypes = {
     spacing: PropTypes.number,
-    columns: PropTypes.numbers,
+    columns: PropTypes.number,
     flexDirection: PropTypes.oneOf(['row', 'row-reverse', 'column']),
     children: PropTypes.node,
 }
