@@ -1,4 +1,6 @@
-import { DrawableTypes } from '@enums'
+import {
+    DrawableTypes
+} from '@constants'
 
 export function draw(canvasContext, type, payload) {
     if (!detectIfCoordsAreFilled(canvasContext, payload)) {
@@ -25,8 +27,13 @@ export function restoreFromStorage(canvasContext) {
 }
 
 function createRectangle(
-    canvasContext,
-    { xCoord, yCoord, width, height, color }
+    canvasContext, {
+        xCoord,
+        yCoord,
+        width,
+        height,
+        color
+    }
 ) {
     canvasContext.fillStyle = color
     canvasContext.fillRect(xCoord, yCoord, width, height)
@@ -40,7 +47,12 @@ function createRectangle(
     })
 }
 
-function createCircle(canvasContext, { xCoord, yCoord, radius, color }) {
+function createCircle(canvasContext, {
+    xCoord,
+    yCoord,
+    radius,
+    color
+}) {
     canvasContext.fillStyle = color
     canvasContext.arc(xCoord, yCoord, radius, 0, 2 * Math.PI)
     canvasContext.fill()
@@ -68,6 +80,9 @@ function storeCanvasElement(type, payload) {
     window.localStorage.setItem('elementCoords', JSON.stringify(storedCoords))
 }
 
-function detectIfCoordsAreFilled(canvasContext, { xCoord, yCoord }) {
+function detectIfCoordsAreFilled(canvasContext, {
+    xCoord,
+    yCoord
+}) {
     return canvasContext.isPointInPath(xCoord, yCoord)
 }

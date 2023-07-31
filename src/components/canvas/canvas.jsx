@@ -1,5 +1,11 @@
-import { ElementIds } from '@enums/element-ids'
+import { CanvasDimensions, ElementIds } from '@constants'
 
 export default function Canvas() {
-    return <canvas id={ElementIds.ShapeToyCanvas} height="400" width="600" />
+    return (
+        <canvas
+            id={ElementIds.ShapeToyCanvas}
+            height={CanvasDimensions.Height}
+            width={CanvasDimensions.Width}
+        />
+    )
 }

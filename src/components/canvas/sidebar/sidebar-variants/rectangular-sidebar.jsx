@@ -1,5 +1,5 @@
 import { PropTypes } from 'prop-types'
-import { ElementIds } from '@enums'
+import { CanvasDimensions, ElementIds } from '@constants'
 import BaseSidebar from './base-sidebar'
 
 export default function RectangularSidebar(props) {
@@ -12,6 +12,8 @@ export default function RectangularSidebar(props) {
                     id={ElementIds.WidthInput}
                     value={props.width}
                     onChange={(event) => props.setWidth(event.target.value)}
+                    max={CanvasDimensions.Width}
+                    min={0}
                 />
             </div>
 
@@ -22,6 +24,8 @@ export default function RectangularSidebar(props) {
                     id={ElementIds.WidthInput}
                     value={props.height}
                     onChange={(event) => props.setHeight(event.target.value)}
+                    max={CanvasDimensions.Height}
+                    min={0}
                 />
             </div>
 
@@ -31,8 +35,8 @@ export default function RectangularSidebar(props) {
 }
 
 RectangularSidebar.propTypes = {
-    width: PropTypes.number,
+    width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     setWidth: PropTypes.func,
-    height: PropTypes.number,
+    height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     setHeight: PropTypes.func,
 }

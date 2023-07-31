@@ -1,5 +1,6 @@
 export const ElementIds = {
     ColorInput: 'color-input',
+    Footer: "footer",
     HeightInput: 'height-input',
     ShapeToyCanvas: 'toy-canvas',
     RadiusInput: 'radius-input',

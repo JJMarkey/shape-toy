@@ -1,2 +1,2 @@
 export * from './canvas-utils'
-export * as TestUtils from './test-utils'
+export * from './test-utils'

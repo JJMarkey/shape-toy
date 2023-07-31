@@ -1,5 +1,5 @@
 import { PropTypes } from 'prop-types'
-import { DrawableTypes, ShapeReducerActions } from '@enums'
+import { DrawableTypes, ShapeReducerActions } from '@constants'
 import { draw } from '@utils'
 import RectangularSidebar from './sidebar-variants/rectangular-sidebar'
 import CircularSidebar from './sidebar-variants/circular-sidebar'
@@ -88,10 +88,25 @@ Sidebar.propTypes = {
     ]),
     shapeValues: PropTypes.shape({
         [ShapeReducerActions.Color]: PropTypes.string,
-        [ShapeReducerActions.Height]: PropTypes.number,
-        [ShapeReducerActions.Width]: PropTypes.number,
-        [ShapeReducerActions.Radius]: PropTypes.number,
-        [ShapeReducerActions.XCoord]: PropTypes.number,
-        [ShapeReducerActions.YCoord]: PropTypes.number,
+        [ShapeReducerActions.Height]: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+        ]),
+        [ShapeReducerActions.Width]: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+        ]),
+        [ShapeReducerActions.Radius]: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+        ]),
+        [ShapeReducerActions.XCoord]: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+        ]),
+        [ShapeReducerActions.YCoord]: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+        ]),
     }),
 }

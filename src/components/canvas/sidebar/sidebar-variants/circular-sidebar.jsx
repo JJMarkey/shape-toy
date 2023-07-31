@@ -1,5 +1,5 @@
 import { PropTypes } from 'prop-types'
-import { ElementIds } from '@enums'
+import { ElementIds } from '@constants'
 import BaseSidebar from './base-sidebar'
 
 export default function CircularSidebar(props) {
@@ -12,6 +12,7 @@ export default function CircularSidebar(props) {
                     value={props.radius}
                     id={ElementIds.RadiusInput}
                     onChange={(event) => props.setRadius(event.target.value)}
+                    min={0}
                 />
             </div>
 
@@ -21,6 +22,6 @@ export default function CircularSidebar(props) {
 }
 
 CircularSidebar.propTypes = {
-    radius: PropTypes.number,
+    radius: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     setRadius: PropTypes.func,
 }

@@ -3,10 +3,9 @@ import { IconButton } from '@mui/material'
 import CircleRoundedIcon from '@mui/icons-material/CircleRounded'
 import SquareRoundedIcon from '@mui/icons-material/SquareRounded'
 import { Canvas, FlexGrid, Footer, Sidebar } from '@components'
-import { ElementIds, DrawableTypes } from '@enums'
+import { ElementIds, DrawableTypes, ShapeReducerActions } from '@constants'
 import { useComponentFirstMount } from '@hooks'
 import { restoreFromStorage } from '@utils'
-import { ShapeReducerActions } from './enums'
 
 function reducer(state, { action, payload }) {
     switch (action) {
