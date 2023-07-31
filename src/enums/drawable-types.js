@@ -1,4 +1,4 @@
 export const DrawableTypes = {
-    Rectangle: "Rectangle",
-    Circle: "Circle"
+    Rectangle: 'Rectangle',
+    Circle: 'Circle',
 }

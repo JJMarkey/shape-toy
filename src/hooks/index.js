@@ -1,5 +1,3 @@
-import useComponentFirstMount from "./use-component-first-mount";
+import useComponentFirstMount from './use-component-first-mount'
 
-export {
-    useComponentFirstMount
-};
+export { useComponentFirstMount }
