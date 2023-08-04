@@ -22,7 +22,12 @@ export function restoreFromStorage(canvasContext) {
 }
 
 export function downloadCanvas(canvas) {
-    window.location = canvas.toDataUrl('image/png')
+    const imageUrl = canvas.toDataURL('image/png')
+    const downloadLink = document.createElement('a')
+    downloadLink.href = imageUrl
+    downloadLink.download = 'canvas.png'
+    downloadLink.click()
+    downloadLink.remove();
 }
 
 export function shouldHighlight(canvasContext, { xCoord, yCoord }) {
@@ -61,23 +66,36 @@ export function shouldSelect(canvasContext, allowMultiSelect) {
         }
     } else {
         for (let image of storage) {
-            image.isSelected = image.isHovered || (allowMultiSelect && image.isSelected)
+            image.isSelected =
+                image.isHovered || (allowMultiSelect && image.isSelected)
         }
     }
     setElementStorage(storage)
     drawWhenHoveredOrSelected(canvasContext)
 }
 
-export function shouldMoveSelected(canvasContext, { mouseOriginXCoord, mouseOriginYCoord, currentMouseXCoord, currentMouseYCoord }) {
+export function shouldMoveSelected(
+    canvasContext,
+    {
+        mouseOriginXCoord,
+        mouseOriginYCoord,
+        currentMouseXCoord,
+        currentMouseYCoord,
+    }
+) {
     const storage = getElementStorage()
 
     //there are issues with drag where drag is very accelerated. need to investigate
     for (let image of storage) {
         if (image.isSelected) {
-            let imageX = parseInt(image.xCoord) + (currentMouseXCoord - mouseOriginXCoord)
-            let imageY = parseInt(image.yCoord) + (currentMouseYCoord - mouseOriginYCoord)
+            let imageX =
+                parseInt(image.xCoord) +
+                (currentMouseXCoord - mouseOriginXCoord)
+            let imageY =
+                parseInt(image.yCoord) +
+                (currentMouseYCoord - mouseOriginYCoord)
 
-            image.xCoord = imageX 
+            image.xCoord = imageX
             image.yCoord = imageY
         }
     }
@@ -92,7 +110,7 @@ export function getElementStorage() {
 
 export function setElementStorage(elements) {
     window.localStorage.setItem(DrawingStorageImages, JSON.stringify(elements))
-    window.dispatchEvent(new Event("storage"))
+    window.dispatchEvent(new Event('storage'))
 }
 
 function drawWhenHoveredOrSelected(canvasContext) {
@@ -132,7 +150,7 @@ function createCircle(canvasContext, { xCoord, yCoord, radius, color }) {
 }
 
 function storeCanvasElement(type, payload) {
-    const guid = crypto.randomBytes(16).toString("hex")
+    const guid = crypto.randomBytes(16).toString('hex')
     const storedCoords = getElementStorage()
 
     const expanded = {
@@ -140,7 +158,7 @@ function storeCanvasElement(type, payload) {
         type,
         isHovered: false,
         isSelected: false,
-        guid: payload.guid ?? guid
+        guid: payload.guid ?? guid,
     }
 
     if (!storedCoords.some((elem) => elem === expanded))

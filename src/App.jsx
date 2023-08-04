@@ -1,5 +1,5 @@
 import { useReducer, useRef, useState } from 'react'
-import { IconButton } from '@mui/material'
+import { Button, IconButton } from '@mui/material'
 import CircleRoundedIcon from '@mui/icons-material/CircleRounded'
 import SquareRoundedIcon from '@mui/icons-material/SquareRounded'
 import { FlexGrid, Footer, Sidebar } from '@components'
@@ -12,6 +12,7 @@ import {
 import { useComponentFirstMount } from '@hooks'
 import {
     checkShiftClick,
+    downloadCanvas,
     restoreFromStorage,
     shouldHighlight,
     shouldMoveSelected,
@@ -150,6 +151,13 @@ function App() {
                     selectedDrawType={selectedDrawType}
                     shapeValues={shapeValues}
                 />
+                <Button
+                    color="primary"
+                    aria-label="Download"
+                    onClick={() => downloadCanvas(canvas.current)}
+                >
+                    Download
+                </Button>
             </FlexGrid.Item>
             <FlexGrid.Item columnWidth={2}>
                 <Footer>

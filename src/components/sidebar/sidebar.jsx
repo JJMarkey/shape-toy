@@ -9,7 +9,7 @@ import {
 } from '@utils'
 import RectangularSidebar from './sidebar-variants/rectangular-sidebar'
 import CircularSidebar from './sidebar-variants/circular-sidebar'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 export default function Sidebar({
     canvasContext,
@@ -18,6 +18,11 @@ export default function Sidebar({
     shapeValues,
 }) {
     const [storage, setStorage] = useState(getElementStorage())
+
+    const filteredStorage = useMemo(
+        () => storage.filter(({ isSelected }) => isSelected),
+        [storage]
+    )
 
     useComponentFirstMount(() => {
         function handleStorageEvent() {
@@ -41,95 +46,97 @@ export default function Sidebar({
 
     return (
         <>
+            <div>Draw Shapes</div>
             <AddShape
                 canvasContext={canvasContext}
                 dispatch={dispatch}
                 selectedDrawType={selectedDrawType}
                 shapeValues={shapeValues}
             />
-            {storage
-                .filter(({ isSelected }) => isSelected)
-                .map((image) => {
-                    if (image.type === DrawableTypes.Circle)
-                        return (
-                            <div key={image.guid}>
-                                <CircularSidebar
-                                    {...image}
-                                    setRadius={(event) =>
-                                        handleElementUpdate(
-                                            event,
-                                            ShapeReducerActions.Radius,
-                                            image.guid
-                                        )
-                                    }
-                                    setColor={(event) =>
-                                        handleElementUpdate(
-                                            event,
-                                            ShapeReducerActions.Color,
-                                            image.guid
-                                        )
-                                    }
-                                    setXCoord={(event) =>
-                                        handleElementUpdate(
-                                            event,
-                                            ShapeReducerActions.XCoord,
-                                            image.guid
-                                        )
-                                    }
-                                    setYCoord={(event) =>
-                                        handleElementUpdate(
-                                            event,
-                                            ShapeReducerActions.YCoord,
-                                            image.guid
-                                        )
-                                    }
-                                />
-                            </div>
-                        )
-                    else
-                        return (
-                            <div key={image.guid}>
-                                <RectangularSidebar
-                                    {...image}
-                                    setHeight={(event) =>
-                                        handleElementUpdate(
-                                            event,
-                                            ShapeReducerActions.Height,
-                                            image.guid
-                                        )
-                                    }
-                                    setWidth={(event) =>
-                                        handleElementUpdate(
-                                            event,
-                                            ShapeReducerActions.Width,
-                                            image.guid
-                                        )
-                                    }
-                                    setColor={(event) =>
-                                        handleElementUpdate(
-                                            event,
-                                            ShapeReducerActions.Color,
-                                            image.guid
-                                        )
-                                    }
-                                    setXCoord={(event) =>
-                                        handleElementUpdate(
-                                            event,
-                                            ShapeReducerActions.XCoord,
-                                            image.guid
-                                        )
-                                    }
-                                    setYCoord={(event) =>
-                                        handleElementUpdate(
-                                            event,
-                                            ShapeReducerActions.YCoord,
-                                            image.guid
-                                        )
-                                    }
-                                />
-                            </div>
-                        )
-                })}
+            {!!filteredStorage.length && <div>Selected Shapes</div>}
+            {filteredStorage.map((image) => {
+                if (image.type === DrawableTypes.Circle)
+                    return (
+                        <div key={image.guid}>
+                            <div>{image.type}</div>
+                            <CircularSidebar
+                                {...image}
+                                setRadius={(event) =>
+                                    handleElementUpdate(
+                                        event,
+                                        ShapeReducerActions.Radius,
+                                        image.guid
+                                    )
+                                }
+                                setColor={(event) =>
+                                    handleElementUpdate(
+                                        event,
+                                        ShapeReducerActions.Color,
+                                        image.guid
+                                    )
+                                }
+                                setXCoord={(event) =>
+                                    handleElementUpdate(
+                                        event,
+                                        ShapeReducerActions.XCoord,
+                                        image.guid
+                                    )
+                                }
+                                setYCoord={(event) =>
+                                    handleElementUpdate(
+                                        event,
+                                        ShapeReducerActions.YCoord,
+                                        image.guid
+                                    )
+                                }
+                            />
+                        </div>
+                    )
+                else
+                    return (
+                        <div key={image.guid}>
+                            <div>{image.type}</div>
+                            <RectangularSidebar
+                                {...image}
+                                setHeight={(event) =>
+                                    handleElementUpdate(
+                                        event,
+                                        ShapeReducerActions.Height,
+                                        image.guid
+                                    )
+                                }
+                                setWidth={(event) =>
+                                    handleElementUpdate(
+                                        event,
+                                        ShapeReducerActions.Width,
+                                        image.guid
+                                    )
+                                }
+                                setColor={(event) =>
+                                    handleElementUpdate(
+                                        event,
+                                        ShapeReducerActions.Color,
+                                        image.guid
+                                    )
+                                }
+                                setXCoord={(event) =>
+                                    handleElementUpdate(
+                                        event,
+                                        ShapeReducerActions.XCoord,
+                                        image.guid
+                                    )
+                                }
+                                setYCoord={(event) =>
+                                    handleElementUpdate(
+                                        event,
+                                        ShapeReducerActions.YCoord,
+                                        image.guid
+                                    )
+                                }
+                            />
+                        </div>
+                    )
+            })}
         </>
     )
 }
