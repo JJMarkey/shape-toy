@@ -2,10 +2,20 @@ import { useReducer, useRef, useState } from 'react'
 import { IconButton } from '@mui/material'
 import CircleRoundedIcon from '@mui/icons-material/CircleRounded'
 import SquareRoundedIcon from '@mui/icons-material/SquareRounded'
-import { Canvas, FlexGrid, Footer, Sidebar } from '@components'
-import { ElementIds, DrawableTypes, ShapeReducerActions } from '@constants'
+import { FlexGrid, Footer, Sidebar } from '@components'
+import {
+    CanvasDimensions,
+    DrawableTypes,
+    ElementIds,
+    ShapeReducerActions,
+} from '@constants'
 import { useComponentFirstMount } from '@hooks'
-import { restoreFromStorage } from '@utils'
+import {
+    checkShiftClick,
+    restoreFromStorage,
+    shouldHighlight,
+    shouldSelect,
+} from '@utils'
 
 function reducer(state, { action, payload }) {
     switch (action) {
@@ -47,10 +57,46 @@ function App() {
         }
     })
 
+    useComponentFirstMount(() => {
+        function handleMouseMove(event) {
+            event.preventDefault()
+            event.stopPropagation()
+
+            const bounding = canvas.current.getBoundingClientRect()
+
+            let xCoord = parseInt(event.clientX - bounding.left)
+            let yCoord = parseInt(event.clientY - bounding.top)
+
+            shouldHighlight(canvasContext.current, {
+                xCoord,
+                yCoord,
+            })
+        }
+        canvas.current.addEventListener('mousemove', handleMouseMove)
+
+        return () =>
+            canvas.current.removeEventListener('mouseover', handleMouseMove)
+    })
+
+    useComponentFirstMount(() => {
+        function handleClick(event) {
+            checkShiftClick(event, (allowMultiSelect) =>
+                shouldSelect(canvasContext.current, allowMultiSelect)
+            )
+        }
+        canvas.current.addEventListener('click', handleClick)
+
+        return () => canvas.current.removeEventListener('click', handleClick)
+    })
+
     return (
         <FlexGrid spacing={2} columns={3}>
             <FlexGrid.Item columnWidth={2}>
-                <Canvas />
+                <canvas
+                    id={ElementIds.ShapeToyCanvas}
+                    height={CanvasDimensions.Height}
+                    width={CanvasDimensions.Width}
+                />
             </FlexGrid.Item>
             <FlexGrid.Item columnWidth={1}>
                 <Sidebar

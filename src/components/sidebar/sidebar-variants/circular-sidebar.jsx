@@ -8,11 +8,12 @@ export default function CircularSidebar(props) {
             <div>
                 <label htmlFor={ElementIds.RadiusInput}>Radius</label>
                 <input
-                    type="number"
+                    type="range"
                     value={props.radius}
                     id={ElementIds.RadiusInput}
                     onChange={(event) => props.setRadius(event.target.value)}
                     min={0}
+                    max={300}
                 />
             </div>
 

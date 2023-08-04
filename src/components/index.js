@@ -1,5 +1,5 @@
-import { Canvas, Sidebar } from './canvas'
+import Sidebar from './sidebar/sidebar'
 import FlexGrid from './layout/flex-grid'
 import Footer from './footer/footer'
 
-export { Canvas, FlexGrid, Footer, Sidebar }
+export { FlexGrid, Footer, Sidebar }

@@ -8,7 +8,7 @@ export default function RectangularSidebar(props) {
             <div>
                 <label htmlFor={ElementIds.WidthInput}>Width</label>
                 <input
-                    type="number"
+                    type="range"
                     id={ElementIds.WidthInput}
                     value={props.width}
                     onChange={(event) => props.setWidth(event.target.value)}
@@ -20,7 +20,7 @@ export default function RectangularSidebar(props) {
             <div>
                 <label htmlFor={ElementIds.HeightInput}>Height</label>
                 <input
-                    type="number"
+                    type="range"
                     id={ElementIds.WidthInput}
                     value={props.height}
                     onChange={(event) => props.setHeight(event.target.value)}
