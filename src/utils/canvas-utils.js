@@ -86,6 +86,15 @@ export function shouldMoveSelected(canvasContext, { mouseOriginXCoord, mouseOrig
     restoreFromStorage(canvasContext)
 }
 
+export function getElementStorage() {
+    return JSON.parse(window.localStorage.getItem(DrawingStorageImages)) ?? []
+}
+
+export function setElementStorage(elements) {
+    window.localStorage.setItem(DrawingStorageImages, JSON.stringify(elements))
+    window.dispatchEvent(new Event("storage"))
+}
+
 function drawWhenHoveredOrSelected(canvasContext) {
     for (let image of getElementStorage()) {
         canvasContext.shadowBlur = 5
@@ -138,12 +147,4 @@ function storeCanvasElement(type, payload) {
         storedCoords.push(expanded)
 
     setElementStorage(storedCoords)
-}
-
-export function getElementStorage() {
-    return JSON.parse(window.localStorage.getItem(DrawingStorageImages)) ?? []
-}
-
-function setElementStorage(elements) {
-    window.localStorage.setItem(DrawingStorageImages, JSON.stringify(elements))
 }

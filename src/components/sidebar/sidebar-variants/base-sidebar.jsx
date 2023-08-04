@@ -48,9 +48,7 @@ export default function BaseSidebar({
                     id={ElementIds.ColorInput}
                 />
             </div>
-            <div>
-                <Button onClick={draw}>Draw Image</Button>
-            </div>
+            <div>{!!draw && <Button onClick={draw}>Draw Image</Button>}</div>
         </>
     )
 }
