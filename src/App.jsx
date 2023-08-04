@@ -14,6 +14,7 @@ import {
     checkShiftClick,
     restoreFromStorage,
     shouldHighlight,
+    shouldMoveSelected,
     shouldSelect,
 } from '@utils'
 
@@ -35,6 +36,7 @@ function reducer(state, { action, payload }) {
 function App() {
     const canvasContext = useRef()
     const canvas = useRef()
+    const isMousedDown = useRef(null)
     const [selectedDrawType, setSelectedDrawType] = useState()
 
     const [shapeValues, dispatch] = useReducer(reducer, {
@@ -46,6 +48,7 @@ function App() {
         [ShapeReducerActions.YCoord]: 0,
     })
 
+    //get ref to canvas
     useComponentFirstMount(() => {
         canvas.current = document.getElementById(ElementIds.ShapeToyCanvas)
         canvasContext.current = canvas.current.getContext('2d')
@@ -57,6 +60,7 @@ function App() {
         }
     })
 
+    //handle hover
     useComponentFirstMount(() => {
         function handleMouseMove(event) {
             event.preventDefault()
@@ -78,15 +82,56 @@ function App() {
             canvas.current.removeEventListener('mouseover', handleMouseMove)
     })
 
+    //handle select
     useComponentFirstMount(() => {
         function handleClick(event) {
+            const bounding = canvas.current.getBoundingClientRect()
+
+            let xCoord = parseInt(event.clientX - bounding.left)
+            let yCoord = parseInt(event.clientY - bounding.top)
+
+            isMousedDown.current = { xCoord, yCoord }
             checkShiftClick(event, (allowMultiSelect) =>
                 shouldSelect(canvasContext.current, allowMultiSelect)
             )
         }
-        canvas.current.addEventListener('click', handleClick)
+        canvas.current.addEventListener('mousedown', handleClick)
 
-        return () => canvas.current.removeEventListener('click', handleClick)
+        return () =>
+            canvas.current.removeEventListener('mousedown', handleClick)
+    })
+
+    //handle drag
+    useComponentFirstMount(() => {
+        function handleDrag(event) {
+            event.preventDefault()
+            event.stopPropagation()
+
+            if (isMousedDown.current) {
+                const bounding = canvas.current.getBoundingClientRect()
+
+                let currXCoord = parseInt(event.clientX - bounding.left)
+                let currYCoord = parseInt(event.clientY - bounding.top)
+
+                shouldMoveSelected(canvasContext.current, {
+                    mouseOriginXCoord: isMousedDown.current.xCoord,
+                    mouseOriginYCoord: isMousedDown.current.yCoord,
+                    currentMouseXCoord: currXCoord,
+                    currentMouseYCoord: currYCoord,
+                })
+            }
+        }
+
+        function handleMouseUp() {
+            isMousedDown.current = null
+        }
+        canvas.current.addEventListener('mousemove', handleDrag)
+        canvas.current.addEventListener('mouseup', handleMouseUp)
+
+        return () => {
+            canvas.current.removeEventListener('mousemove', handleDrag)
+            canvas.current.removeEventListener('mouseup', handleMouseUp)
+        }
     })
 
     return (
